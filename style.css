@@ -22,7 +22,7 @@ body{background:radial-gradient(circle at 50% -10%,#f0eaff 0,transparent 52%),#f
 .eyebrow{color:var(--accent-dark);font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.12em}
 .tagline{font-size:21px;font-weight:700;color:#6043b6;margin:8px 0 14px}
 .brand-copy>p:not(.tagline){max-width:480px;line-height:1.6;color:#6d6680}
-.privacy-pill{display:inline-block;background:#f0ebff;color:#6444b8;padding:9px 12px;border-radius:99px;font-size:12px;font-weight:650;margin-top:8px}
+.brand-copy>p:last-child{margin-bottom:0}
 .panel{border-color:var(--line);border-radius:22px;box-shadow:0 10px 32px #6c49c00a}
 .panel h2{letter-spacing:-.4px}
 .heading-sparkle{color:var(--accent)}
