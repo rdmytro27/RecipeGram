@@ -45,3 +45,38 @@ th,td,.shopping-item{border-bottom-color:var(--line)}
 footer{line-height:1.8;color:#80788d}
 footer strong{color:var(--accent-dark)}
 @media(max-width:650px){.wrap{padding:14px 12px 28px}.brand-header{grid-template-columns:1fr;text-align:center;gap:4px;padding:18px;border-radius:24px}.brand-logo{width:min(64%,230px);margin:auto}.brand-copy h1{font-size:34px}.brand-copy>p:not(.tagline){margin-left:auto;margin-right:auto}.tagline{font-size:18px}.panel{padding:18px}.tabs{justify-content:center}}
+/* Компактні інгредієнти */
+.results {
+  overflow-x: visible;
+}
+
+.results table {
+  width: 100%;
+  min-width: 0;
+  table-layout: fixed;
+}
+
+.results th,
+.results td {
+  padding: 7px 5px;
+  font-size: 13px;
+  overflow-wrap: anywhere;
+}
+
+.results th:nth-child(1) { width: 38%; }
+.results th:nth-child(2) { width: 27%; }
+.results th:nth-child(3) { width: 35%; }
+
+/* На телефоні примітки приховані */
+@media (max-width: 650px) {
+  .results th:nth-child(4),
+  .results td:nth-child(4) {
+    display: none;
+  }
+
+  .results th,
+  .results td {
+    padding: 6px 3px;
+    font-size: 12px;
+  }
+}
