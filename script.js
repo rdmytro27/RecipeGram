@@ -32,36 +32,7 @@ function convert(item,factor,unit){
  const kg=unit==='kg'||(unit==='auto'&&grams>=1000);
  return {value:`${approx?'≈ ':''}${fmt(kg?grams/1000:grams)} ${kg?'кг':'г'}`,note};
 }
-function classicValue(item,factor){
- if(item.error)return 'Не розпізнано';
- return `${fmt(item.amount*factor)} ${item.unit}`;
-}
-function render(){
- const lines=$('recipe').value.split('\n').filter(s=>s.trim());
- const original=Number($('originalServings').value),target=Number($('targetServings').value);
- if(!Number.isInteger(original)||!Number.isInteger(target)||original<1||target<1){
-  $('portionSummary').textContent='Вкажи цілу додатну кількість порцій';
-  $('results').textContent='Виправ кількість порцій для розрахунку.';
-  return;
- }
- const factor=target/original;
- $('portionSummary').textContent=`${original} → ${target} порцій · множник ×${fmt(factor)}`;
- if(!lines.length){$('results').textContent='Встав інгредієнти рецепта.';return;}
- const table=document.createElement('table');
- const head=document.createElement('tr');
- ['Інгредієнт','Класичний рецепт','У грамах / кілограмах','Примітка'].forEach(s=>{
-  const th=document.createElement('th');th.textContent=s;head.append(th);
- });
- table.append(head);
- lines.forEach(line=>{
-  const item=parse(line),result=convert(item,factor,$('unit').value),tr=document.createElement('tr');
-  [item.name||item.original,classicValue(item,factor),result.value,result.note].forEach(s=>{
-   const td=document.createElement('td');td.textContent=s;tr.append(td);
-  });
-  table.append(tr);
- });
- $('results').replaceChildren(table);
-}
+function render(){const lines=$('recipe').value.split('\n').filter(s=>s.trim());const original=Number($('originalServings').value),target=Number($('targetServings').value);if(!Number.isInteger(original)||!Number.isInteger(target)||original<1||target<1){$('portionSummary').textContent='Вкажи цілу додатну кількість порцій';return;}const factor=target/original;$('portionSummary').textContent=`${original} → ${target} порцій · множник ×${fmt(factor)}`;if(!lines.length){$('results').textContent='Встав інгредієнти рецепта.';return;}const table=document.createElement('table');const head=document.createElement('tr');['Інгредієнт','Результат','Точність'].forEach(s=>{const th=document.createElement('th');th.textContent=s;head.append(th)});table.append(head);lines.forEach(line=>{const item=parse(line), result=convert(item,factor,$('unit').value),tr=document.createElement('tr');[item.name||item.original,result.value,result.note].forEach(s=>{const td=document.createElement('td');td.textContent=s;tr.append(td)});table.append(tr)});$('results').replaceChildren(table)}
 $('convert').addEventListener('click',render);$('unit').addEventListener('change',render);['originalServings','targetServings'].forEach(id=>$(id).addEventListener('input',render));$('plusPortion').addEventListener('click',()=>{$('targetServings').value=Math.max(1,Number($('targetServings').value)||1)+1;render()});$('minusPortion').addEventListener('click',()=>{$('targetServings').value=Math.max(1,(Number($('targetServings').value)||1)-1);render()});
 $('save').addEventListener('click',()=>{localStorage.setItem('recipegram-recipe',JSON.stringify({recipe:$('recipe').value,originalServings:$('originalServings').value,targetServings:$('targetServings').value,unit:$('unit').value}));alert('Рецепт збережено на цьому пристрої')});
 $('load').addEventListener('click',()=>{const saved=localStorage.getItem('recipegram-recipe');if(!saved){alert('Немає збереженого рецепта');return;}const x=JSON.parse(saved);$('recipe').value=x.recipe;$('originalServings').value=x.originalServings||1;$('targetServings').value=x.targetServings||x.factor||1;$('unit').value=x.unit;render()});
